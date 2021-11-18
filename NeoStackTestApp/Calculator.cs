@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,28 +10,28 @@ namespace NeoStackTestApp
     public static class Calculator
     {
 
-        public static double CalculateFunction(double degree, FunctionCalcModel functionCalcModel)
+        public static double CalculateFunction(double degree, FunctionModel functionModel)
         {
             if (degree == 0)
                 degree = 1;
 
             double result =
-                functionCalcModel.A * Math.Pow(functionCalcModel.X, degree) + 
-                functionCalcModel.B * Math.Pow(functionCalcModel.Y, degree - 1.0) +
-                CalcC(degree, functionCalcModel.C);
+                functionModel.A * Math.Pow(functionModel.X, degree) +
+                functionModel.B * Math.Pow(functionModel.Y, degree - 1.0) +
+                functionModel.C;
 
             return result;
         }
 
-        public static double CalculateFunction(FunctionCalcModel functionCalcModel)
+        public static double CalculateFunction(FunctionModel functionModel)
         {
-            if (functionCalcModel.Degree == 0)
-                functionCalcModel.Degree = 1;
+            if (functionModel.Degree == 0)
+                functionModel.Degree = 1;
 
             double result =
-                functionCalcModel.A * Math.Pow(functionCalcModel.X, functionCalcModel.Degree) +
-                functionCalcModel.B * Math.Pow(functionCalcModel.Y, functionCalcModel.Degree - 1.0) +
-                CalcC(functionCalcModel.Degree, functionCalcModel.C);
+                functionModel.A * Math.Pow(functionModel.X, functionModel.Degree) +
+                functionModel.B * Math.Pow(functionModel.Y, functionModel.Degree - 1.0) +
+                functionModel.C;
 
             return result;
         }
@@ -45,9 +46,9 @@ namespace NeoStackTestApp
             return result;
         }
 
-        public static List<double> GetCList(int size, double degree)
+        public static ObservableCollection<double> GetCList(int size, double degree)
         {
-            List<double> result = new List<double>();
+            ObservableCollection<double> result = new ObservableCollection<double>();
 
             for (int i = 1; i <= size; i++)
             {

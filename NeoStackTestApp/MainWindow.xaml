@@ -4,11 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeoStackTestApp"
+        d:DataContext="{d:DesignInstance Type=local:ApplicationViewModel}"
         mc:Ignorable="d"
         Padding="100"
-        Title="MainWindow" Height="450" MinHeight="200" Width="800" MinWidth="200">
+        Title="MainWindow" Height="450" MinHeight="200" Width="800" MinWidth="200"
+        >
     
-    <Grid ShowGridLines="True">
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -17,17 +19,45 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ListBox x:Name="functionsListBox" DisplayMemberPath="FunctionName" Grid.Column="0" Background="Lavender">
-            
+        <ListBox
+            x:Name="functionsListBox" Grid.Column="0" ItemsSource="{Binding FunctionsList}" SelectedItem="{Binding SelectedFunction}" Background="Lavender" SelectedIndex="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path = FunctionName}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
 
+
         <StackPanel Grid.Column="1">
-            <TextBlock Text="Выбранная функция: Линейная f(x,y) = ax + by'0 + c" x:Name="functionDescription"/>
-            <TextBox x:Name="aTextBox" Text="kekk"/>
-            <TextBox x:Name="bTextBox" Text="kek"/>
-            <ComboBox x:Name="cComboBox" />
-            <DataGrid x:Name="functionDataGrid">
-              
+            <TextBlock Text="{Binding ElementName=functionsListBox, Path = SelectedItem.Function}" x:Name="functionDescription"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Коэффициент a: "  Grid.Column="0" Grid.Row="0"/>
+                <TextBox Width="auto" MaxLength="6" Text="{Binding SelectedFunction.A}" Grid.Row="0" Grid.Column="1" MinWidth="100"/>
+                <TextBlock Text="Коэффициент b: "  Grid.Column="0" Grid.Row="1"/>
+                <TextBox Width="auto" MaxLength="6" MinWidth="100" Text="{Binding SelectedFunction.B}" Grid.Column="1" Grid.Row="1" />
+            </Grid>
+
+            <ComboBox x:Name="cComboBox" ItemsSource="{Binding CList}"
+                      SelectedIndex="{Binding ElementName=functionsListBox, Path=SelectedItem.SelectedPosition}"
+                      SelectedItem="{Binding ElementName=functionsListBox, Path=SelectedItem.C}"
+                      />
+
+
+            <DataGrid x:Name="functionDataGrid" ItemsSource="{Binding FunctionsList, NotifyOnSourceUpdated=True}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="x" Binding="{Binding Path=X}" Width="*"/>
+                    <DataGridTextColumn Header="y" Binding="{Binding Path=Y}"  Width="*"/>
+                    <DataGridTextColumn Header="f(x,y)" Binding="{Binding Path=F}"  IsReadOnly="True" Width="*"/>
+                </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
         
