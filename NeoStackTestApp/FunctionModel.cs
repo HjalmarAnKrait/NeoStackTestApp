@@ -6,19 +6,18 @@ using System.Threading.Tasks;
 
 namespace NeoStackTestApp
 {
-    class FunctionModel
+    public class FunctionModel
     {
+        public FunctionModel(string functionName, string function, int degree)
+        {
+            FunctionName = functionName;
+            Function = function;
+            Degree = degree;
+        }
+
         public string FunctionName { get;}
         public string Function { get;}
-        public int CMultiplier { get;}
         public int Degree { get; }
-
-        //private int 
-
-        public int getMultipliedC(int c)
-        {
-            return c * CMultiplier;
-        }
 
         public string getFunctionDescription()
         {
