@@ -32,8 +32,8 @@ namespace UnitTests
         [TestMethod]
         public void CalculateFunctionTest()
         {
-            FunctionCalcModel functionCalcModelZero = new FunctionCalcModel();
-            FunctionCalcModel functionCalcModel = new FunctionCalcModel(1,1,1,1,1,1,2);
+            FunctionModel functionCalcModelZero = new FunctionModel("kek","lol", 0);
+            FunctionModel functionCalcModel = new FunctionModel("kek", "lol", 2,1,1,1,1,1,1);
 
             Assert.AreEqual(0.0, Calculator.CalculateFunction(0.0, functionCalcModelZero));
             Assert.AreEqual(12.0, Calculator.CalculateFunction(functionCalcModel));

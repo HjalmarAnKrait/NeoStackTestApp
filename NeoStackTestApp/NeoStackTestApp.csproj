@@ -71,10 +71,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ApplicationViewModel.cs" />
     <Compile Include="Calculator.cs" />
-    <Compile Include="FunctionCalcModel.cs" />
     <Compile Include="FunctionModel.cs" />
-    <Compile Include="Utility.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
