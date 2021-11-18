@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeoStackTestApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Padding="100"
+        Title="MainWindow" Height="450" MinHeight="200" Width="800" MinWidth="200">
+    
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <ListBox x:Name="functionsListBox" DisplayMemberPath="FunctionName" Grid.Column="0" Background="Lavender">
+            
+        </ListBox>
+
+        <StackPanel Grid.Column="1">
+            <TextBlock Text="Выбранная функция: Линейная f(x,y) = ax + by'0 + c" x:Name="functionDescription"/>
+            <TextBox x:Name="aTextBox" Text="kekk"/>
+            <TextBox x:Name="bTextBox" Text="kek"/>
+            <ComboBox x:Name="cComboBox" />
+            <DataGrid x:Name="functionDataGrid">
+              
+            </DataGrid>
+        </StackPanel>
         
+
     </Grid>
 </Window>
