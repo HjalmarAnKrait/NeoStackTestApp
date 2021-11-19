@@ -8,28 +8,38 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace NeoStackTestApp
 {
+    /// <summary>
+    /// ViewModel для MainWindow.xaml
+    /// </summary>
     public class ApplicationViewModel : INotifyPropertyChanged
     {
         private FunctionModel _selectedFunction;
         private ObservableCollection<double> _cList;
         private ObservableCollection<FunctionModel> _functionsList;
 
-
+        /// <summary>
+        /// Геттеры и сеттеры для свойств класса. На каждый метод Set прописан метод OnPropertyChanged
+        /// </summary>
+        #region
         public ObservableCollection<FunctionModel> FunctionsList
         {
             get
             { 
-                return _functionsList; 
+                return _functionsList;
             }
             set
             {
                 _functionsList = value;
+                Debug.WriteLine("FunctionsList updated");
                 OnPropertyChanged("FunctionsList");
             }
         }
+        
         public ObservableCollection<double> CList
         {
             get
@@ -39,40 +49,37 @@ namespace NeoStackTestApp
             set
             {
                 _cList = value;
+                Debug.WriteLine("CList updated");
                 OnPropertyChanged("CList");
             }
         }
 
+        
         public FunctionModel SelectedFunction
         {
             get { return _selectedFunction; }
             set
             {
                 value.F = Calculator.CalculateFunction(value);
-                Debug.WriteLine("C = " + value.C);
                 _selectedFunction = value;
-                updateCList();
+                Debug.WriteLine("SelectedFunctionUpdated");
+                UpdateCList();
                 OnPropertyChanged("SelectedFunction");
             }
         }
 
+        #endregion
+
+        /// <summary>
+        /// Конструктор класса ViewModel
+        /// </summary>
         public ApplicationViewModel()
         {
             InitFunctionsList();
             _selectedFunction = FunctionsList[0];
+            UpdateCList();
 
-            updateCList();
 
-
-        }
-
-        
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
         private void InitFunctionsList()
@@ -85,11 +92,28 @@ namespace NeoStackTestApp
             FunctionsList.Add(new FunctionModel("4-ой степени", "f(x, y) = ax^4 + by^3 + c", 4));
             FunctionsList.Add(new FunctionModel("5-ой степени", "f(x, y) = ax^5 + by^4 + c", 5));
         }
-
-        private void updateCList()
+     
+        private void UpdateCList()
         {
             CList = Calculator.GetCList(5, _selectedFunction.Degree);
         }
+
+
+        /// <summary>
+        /// Событие смены свойства
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Метод, вызываемый при смене значения у свойства.
+        /// </summary>
+        /// <param name="prop">Название свойства, которое изменилось</param>
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+        
 
     }
 }

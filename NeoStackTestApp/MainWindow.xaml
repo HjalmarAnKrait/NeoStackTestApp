@@ -46,13 +46,13 @@
                 <TextBox Width="auto" MaxLength="6" MinWidth="100" Text="{Binding SelectedFunction.B}" Grid.Column="1" Grid.Row="1" />
             </Grid>
 
-            <ComboBox x:Name="cComboBox" ItemsSource="{Binding CList}"
+            <ComboBox x:Name="cComboBox" ItemsSource="{Binding CList, UpdateSourceTrigger=PropertyChanged}"
                       SelectedIndex="{Binding ElementName=functionsListBox, Path=SelectedItem.SelectedPosition}"
                       SelectedItem="{Binding ElementName=functionsListBox, Path=SelectedItem.C}"
                       />
 
 
-            <DataGrid x:Name="functionDataGrid" ItemsSource="{Binding FunctionsList, NotifyOnSourceUpdated=True}" AutoGenerateColumns="False">
+            <DataGrid x:Name="functionDataGrid" ItemsSource="{Binding FunctionsList, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedIndex="{Binding ElementName=functionsListBox, Path=SelectedIndex}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="x" Binding="{Binding Path=X}" Width="*"/>
                     <DataGridTextColumn Header="y" Binding="{Binding Path=Y}"  Width="*"/>
