@@ -28,6 +28,7 @@ namespace NeoStackTestApp
             InitializeComponent();
 
             this.DataContext = new ApplicationViewModel();
+            
         }
 
 

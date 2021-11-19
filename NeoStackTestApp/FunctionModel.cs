@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace NeoStackTestApp
 {
+    /// <summary>
+    /// Модель функции, содержащая в себе необходимые данные для её расчёта
+    /// </summary>
     public class FunctionModel : INotifyPropertyChanged
     {
         private string _functionName, _function;
@@ -15,6 +18,9 @@ namespace NeoStackTestApp
         private double _a, _b, _c, _f, _x, _y;
         private int _selectedPosition;
 
+        /// <summary>
+        /// Конструктор для FunctionalModel с частичным набором параметров
+        /// </summary>
         public FunctionModel(string functionName, string function, int degree)
         {
             FunctionName = functionName;
@@ -29,6 +35,9 @@ namespace NeoStackTestApp
             Y = 0;
         }
 
+        /// <summary>
+        /// Конструктор для FunctionalModel с полным набором параметров
+        /// </summary>
         public FunctionModel(string functionName, string function, double degree, double a, double b, double c, double f, double x, double y)
         {
             FunctionName = functionName;
@@ -43,7 +52,9 @@ namespace NeoStackTestApp
             Y = y;
         }
 
-        //Getters and setters
+        /// <summary>
+        /// Геттеры и сеттеры для свойств класса. На каждый метод Set прописан метод OnPropertyChanged
+        /// </summary>
         #region
         public string FunctionName
         {
@@ -138,10 +149,17 @@ namespace NeoStackTestApp
             }
         }
 
-#endregion
+        #endregion
 
-
+        /// <summary>
+        /// Событие смены свойства
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Метод, вызываемый при смене значения у свойства.
+        /// </summary>
+        /// <param name="prop">Название свойства, которое изменилось</param>
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
