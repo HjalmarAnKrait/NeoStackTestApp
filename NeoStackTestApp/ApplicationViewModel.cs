@@ -15,12 +15,20 @@ namespace NeoStackTestApp
 {
     /// <summary>
     /// ViewModel для MainWindow.xaml
+    /// Реализует интерфейс INotifyPropertyChanged
     /// </summary>
     public class ApplicationViewModel : INotifyPropertyChanged
     {
         private FunctionModel _selectedFunction;
         private ObservableCollection<double> _cList;
         private ObservableCollection<FunctionModel> _functionsList;
+        private ObservableCollection<FunctionModel> _dummyList;
+
+
+        /// <summary>
+        /// Строка, содержащая в себе название класса.
+        /// </summary>
+        public const string ClassName = "ApplicationViewModel";
 
         /// <summary>
         /// Геттеры и сеттеры для свойств класса. На каждый метод Set прописан метод OnPropertyChanged
@@ -35,7 +43,6 @@ namespace NeoStackTestApp
             set
             {
                 _functionsList = value;
-                Debug.WriteLine("FunctionsList updated");
                 OnPropertyChanged("FunctionsList");
             }
         }
@@ -49,7 +56,6 @@ namespace NeoStackTestApp
             set
             {
                 _cList = value;
-                Debug.WriteLine("CList updated");
                 OnPropertyChanged("CList");
             }
         }
@@ -62,7 +68,6 @@ namespace NeoStackTestApp
             {
                 value.F = Calculator.CalculateFunction(value);
                 _selectedFunction = value;
-                Debug.WriteLine("SelectedFunctionUpdated");
                 UpdateCList();
                 OnPropertyChanged("SelectedFunction");
             }
@@ -76,9 +81,10 @@ namespace NeoStackTestApp
         public ApplicationViewModel()
         {
             InitFunctionsList();
-            _selectedFunction = FunctionsList[0];
-            UpdateCList();
 
+            _selectedFunction = FunctionsList[0];
+
+            UpdateCList();
 
         }
 
@@ -99,6 +105,14 @@ namespace NeoStackTestApp
         }
 
 
+        private void UpdateFunctionList()
+        {
+            _dummyList = _functionsList;
+            _functionsList = null;
+            _functionsList = _dummyList;
+            Debug.WriteLine("Manual update");
+        }
+
         /// <summary>
         /// Событие смены свойства
         /// </summary>
@@ -112,6 +126,7 @@ namespace NeoStackTestApp
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            Debug.WriteLine($" {DateTime.Now.ToString("h:mm:ss tt")}. {ClassName} PropertyChanged name - {prop}");
         }
         
 

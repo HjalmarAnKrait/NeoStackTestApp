@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -17,6 +18,11 @@ namespace NeoStackTestApp
         private double _degree;
         private double _a, _b, _c, _f, _x, _y;
         private int _selectedPosition;
+
+        /// <summary>
+        /// Строка, содержащая в себе название класса.
+        /// </summary>
+        public const string ClassName = "FunctionModel";
 
         /// <summary>
         /// Конструктор для FunctionalModel с частичным набором параметров
@@ -164,6 +170,7 @@ namespace NeoStackTestApp
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            Debug.WriteLine($" {DateTime.Now.ToString("h:mm:ss tt")}. {ClassName} PropertyChanged name - {prop}.");
         }
     }
 }
