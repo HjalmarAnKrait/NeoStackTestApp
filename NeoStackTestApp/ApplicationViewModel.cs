@@ -22,8 +22,6 @@ namespace NeoStackTestApp
         private FunctionModel _selectedFunction;
         private ObservableCollection<double> _cList;
         private ObservableCollection<FunctionModel> _functionsList;
-        private ObservableCollection<FunctionModel> _dummyList;
-
 
         /// <summary>
         /// Строка, содержащая в себе название класса.
@@ -36,10 +34,7 @@ namespace NeoStackTestApp
         #region
         public ObservableCollection<FunctionModel> FunctionsList
         {
-            get
-            { 
-                return _functionsList;
-            }
+            get{ return _functionsList; }
             set
             {
                 _functionsList = value;
@@ -49,10 +44,7 @@ namespace NeoStackTestApp
         
         public ObservableCollection<double> CList
         {
-            get
-            {
-                return _cList;
-            }
+            get{ return _cList; }
             set
             {
                 _cList = value;
@@ -63,12 +55,17 @@ namespace NeoStackTestApp
         
         public FunctionModel SelectedFunction
         {
-            get { return _selectedFunction; }
+            get
+            { return _selectedFunction; }
             set
             {
                 value.F = Calculator.CalculateFunction(value);
                 _selectedFunction = value;
+
+                //UpdateFunctionList();
+
                 UpdateCList();
+                
                 OnPropertyChanged("SelectedFunction");
             }
         }
@@ -107,12 +104,14 @@ namespace NeoStackTestApp
 
         private void UpdateFunctionList()
         {
-            _dummyList = _functionsList;
-            _functionsList = null;
-            _functionsList = _dummyList;
+            _functionsList.Add(_selectedFunction);
+            _functionsList.RemoveAt(FunctionsList.Count - 1);
+
             Debug.WriteLine("Manual update");
         }
 
+        //OnPropertyChanged имплементация
+        #region 
         /// <summary>
         /// Событие смены свойства
         /// </summary>
@@ -128,7 +127,7 @@ namespace NeoStackTestApp
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
             Debug.WriteLine($" {DateTime.Now.ToString("h:mm:ss tt")}. {ClassName} PropertyChanged name - {prop}");
         }
-        
+        #endregion
 
     }
 }
