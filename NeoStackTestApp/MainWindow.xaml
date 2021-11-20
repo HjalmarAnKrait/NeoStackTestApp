@@ -20,7 +20,8 @@
         </Grid.RowDefinitions>
 
         <ListBox
-            x:Name="functionsListBox" Grid.Column="0" ItemsSource="{Binding FunctionsList}" SelectedItem="{Binding SelectedFunction}" Background="Lavender" SelectedIndex="0">
+            x:Name="functionsListBox" Grid.Column="0" ItemsSource="{Binding FunctionsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding SelectedFunction}" Background="Lavender" SelectedIndex="0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Path = FunctionName}"/>
@@ -41,9 +42,9 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Коэффициент a: "  Grid.Column="0" Grid.Row="0"/>
-                <TextBox Width="auto" MaxLength="6" Text="{Binding SelectedFunction.A}" Grid.Row="0" Grid.Column="1" MinWidth="100"/>
+                <TextBox Width="auto" MaxLength="6" Text="{Binding SelectedFunction.A, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" MinWidth="100"/>
                 <TextBlock Text="Коэффициент b: "  Grid.Column="0" Grid.Row="1"/>
-                <TextBox Width="auto" MaxLength="6" MinWidth="100" Text="{Binding SelectedFunction.B}" Grid.Column="1" Grid.Row="1" />
+                <TextBox Width="auto" MaxLength="6" MinWidth="100" Text="{Binding SelectedFunction.B, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" />
             </Grid>
 
             <ComboBox x:Name="cComboBox" ItemsSource="{Binding CList, UpdateSourceTrigger=PropertyChanged}"

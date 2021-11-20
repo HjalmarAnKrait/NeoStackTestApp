@@ -105,6 +105,7 @@ namespace NeoStackTestApp
             get { return _a; }
             set
             {
+                Debug.WriteLine("before conver value " + value);
                 _a = value;
                 OnPropertyChanged("A");
             }
