@@ -1,37 +1,34 @@
 ﻿using NeoStackTestApp.Models;
 using NeoStackTestApp.Other;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeoStackTestApp
 {
     /// <summary>
     /// Модель функции, содержащая в себе необходимые данные для её расчёта
     /// </summary>
-    public class FunctionModel : INotifyPropertyChanged
+    public class FunctionModel : BasePropertyChangedHandler<FunctionModel>
     {
         #region variables
         private string _functionName, _function;
         private double _degree;
         private double _a, _b, _c;
-        private int _comboBoxSelectedIndex;
         private ObservableCollection<FunctionArgsModel> _functionArgsModelList;
-
-        /// <summary>
-        /// Строка, содержащая в себе название класса.
-        /// </summary>
-        public const string ClassName = "FunctionModel";
+        private bool _enableDebugLogging = true;
         #endregion
 
 
         #region constructors
+        /// <summary>
+        /// Конструктор класса с полным набором параметров
+        /// </summary>
+        /// <param name="functionName"></param>
+        /// <param name="function"></param>
+        /// <param name="degree"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="c"></param>
         public FunctionModel(string functionName, string function, double degree, double a, double b, double c)
         {
             FunctionName = functionName;
@@ -40,9 +37,14 @@ namespace NeoStackTestApp
             FunctionArgsModelList = new ObservableCollection<FunctionArgsModel>();
             A = a;
             B = b;
-            C = c;
+            C = Calculator.CalcC(degree, 1.0);
         }
-
+        /// <summary>
+        /// Конструктор класса с частичным набором параметров
+        /// </summary>
+        /// <param name="functionName"></param>
+        /// <param name="function"></param>
+        /// <param name="degree"></param>
         public FunctionModel(string functionName, string function, Double degree)
         {
             FunctionName = functionName;
@@ -51,7 +53,7 @@ namespace NeoStackTestApp
             FunctionArgsModelList = new ObservableCollection<FunctionArgsModel>();
             A = 0;
             B = 0;
-            C = 0;
+            C = Calculator.CalcC(degree, 1.0);
         }
         #endregion
 
@@ -65,16 +67,7 @@ namespace NeoStackTestApp
             set
             {
                 _functionName = value;
-                OnPropertyChanged();
-            }
-        }
-        public int ComboBoxSelectedIndex
-        {
-            get { return _comboBoxSelectedIndex; }
-            set
-            {
-               _comboBoxSelectedIndex = value;
-                OnPropertyChanged();
+                OnPropertyChanged(enableDebugLogging: _enableDebugLogging);
             }
         }
         public string Function
@@ -83,7 +76,7 @@ namespace NeoStackTestApp
             set
             {
                 _function = value;
-                OnPropertyChanged();
+                OnPropertyChanged(enableDebugLogging: _enableDebugLogging);
             }
         }
         public double Degree
@@ -92,7 +85,7 @@ namespace NeoStackTestApp
             set
             {
                 _degree = value;
-                OnPropertyChanged();
+                OnPropertyChanged(enableDebugLogging: _enableDebugLogging);
             }
         }
 
@@ -102,7 +95,7 @@ namespace NeoStackTestApp
             set
             {
                 _functionArgsModelList = value;
-                OnPropertyChanged();
+                OnPropertyChanged(enableDebugLogging: _enableDebugLogging);
             }
         }
 
@@ -113,7 +106,7 @@ namespace NeoStackTestApp
             {
                 _a = value;
                 StaticData.SelectedItem = this;
-                OnPropertyChanged();
+                OnPropertyChanged(enableDebugLogging: _enableDebugLogging);
             }
         }
         public double B
@@ -123,7 +116,7 @@ namespace NeoStackTestApp
             {
                 _b = value;
                 StaticData.SelectedItem = this;
-                OnPropertyChanged();
+                OnPropertyChanged(enableDebugLogging: _enableDebugLogging);
             }
         }
         public double C
@@ -133,27 +126,10 @@ namespace NeoStackTestApp
             {
                 _c = value;
                 StaticData.SelectedItem = this;
-                OnPropertyChanged();
+                OnPropertyChanged(value, enableDebug: _enableDebugLogging);
             }
         }
         #endregion
 
-        #region Events
-        /// <summary>
-        /// Событие смены свойства
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Метод, вызываемый при смене значения у свойства.
-        /// </summary>
-        /// <param name="prop">Название свойства, которое изменилось</param>
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-            Debug.WriteLine($" {DateTime.Now.ToString("h:mm:ss tt")}. {ClassName} PropertyChanged name - {prop}.");
-        }
-        #endregion
     }
 }

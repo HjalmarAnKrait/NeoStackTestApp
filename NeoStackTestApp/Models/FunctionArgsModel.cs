@@ -1,27 +1,16 @@
 ﻿using NeoStackTestApp.Other;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeoStackTestApp.Models
 {
     /// <summary>
     /// Модель аргументов функции
     /// </summary>
-    public class FunctionArgsModel : INotifyPropertyChanged
+    public class FunctionArgsModel : BasePropertyChangedHandler<FunctionArgsModel>
     {
         #region variables
         private double _f, _x, _y;
-        /// <summary>
-        /// Имя класса
-        /// </summary>
-        public const string ClassName = "FunctionArgsModel";
+        private bool _enableDebugLogging = false;
+        private string _details;
         #endregion
 
         #region Constructors
@@ -36,7 +25,8 @@ namespace NeoStackTestApp.Models
             X = x;
             Y = y;
             F = Calculator.CalculateFunction(selectedFunctionModel, this);
-            
+            updateDetails();
+
         }
         /// <summary>
         /// Конструктор класса с частичным набором параметров
@@ -46,6 +36,7 @@ namespace NeoStackTestApp.Models
             X = 0;
             Y = 0;
             F = Calculator.CalculateFunction(StaticData.SelectedItem, this);
+            updateDetails();
 
         }
         #endregion
@@ -60,7 +51,7 @@ namespace NeoStackTestApp.Models
             set
             {
                 _f = value;
-                OnPropertyChanged();
+                OnPropertyChanged(enableDebugLogging: _enableDebugLogging);
             }
         }
         public double X
@@ -72,8 +63,9 @@ namespace NeoStackTestApp.Models
                 if(StaticData.SelectedItem != null)
                 {
                     F = Calculator.CalculateFunction(StaticData.SelectedItem, this);
+                    updateDetails();
                 }               
-                OnPropertyChanged();
+                OnPropertyChanged(enableDebugLogging: _enableDebugLogging);
             }
         }
         public double Y
@@ -85,29 +77,34 @@ namespace NeoStackTestApp.Models
                 if (StaticData.SelectedItem != null)
                 {
                     F = Calculator.CalculateFunction(StaticData.SelectedItem, this);
+                    updateDetails();
                 }
-                OnPropertyChanged();
+                OnPropertyChanged(enableDebugLogging: _enableDebugLogging);
+            }
+        }
+
+        public string Details
+        {
+            get { return _details; }
+            set 
+            { 
+                _details = value;
+                OnPropertyChanged(enableDebugLogging: _enableDebugLogging); 
             }
         }
         #endregion
 
-
-        #region Events
-        /// <summary>
-        /// Событие смены свойства
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Метод, вызываемый при смене значения у свойства.
-        /// </summary>
-        /// <param name="prop">Название свойства, которое изменилось</param>
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        private void updateDetails()
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-            Debug.WriteLine($" {DateTime.Now.ToString("h:mm:ss tt")}. {ClassName} PropertyChanged name - {prop}.");
+            if(StaticData.SelectedItem != null)
+            {
+                Details = $"Аргументы функции: c = {StaticData.SelectedItem.C}, a = {StaticData.SelectedItem.A}, b = {StaticData.SelectedItem.B}";
+            }
+            else
+            {
+                Details = $"Аргументы функции: c = NAN, a = NAN, b = NAN";
+            }
+            
         }
-        #endregion
     }
 }

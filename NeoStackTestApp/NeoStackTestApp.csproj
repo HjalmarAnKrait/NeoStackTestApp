@@ -72,6 +72,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\FunctionArgsModel.cs" />
+    <Compile Include="Other\BasePropertyChangedHandler.cs" />
     <Compile Include="Other\StaticData.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="Other\Calculator.cs" />
