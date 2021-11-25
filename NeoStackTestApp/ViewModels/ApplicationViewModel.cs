@@ -25,6 +25,7 @@ namespace NeoStackTestApp
         private FunctionModel _selectedFunction;
         private ObservableCollection<double> _cList;
         private ObservableCollection<FunctionModel> _functionsList;
+        private int _selIndex;
 
         /// <summary>
         /// Строка, содержащая в себе название класса.
@@ -46,15 +47,21 @@ namespace NeoStackTestApp
             }
         }
         
+        public int SelIndex 
+        { 
+            get { return _selIndex; }
+            set
+            {
+                _selIndex = value;
+                OnPropertyChanged(); 
+            }
+        }
+
         public ObservableCollection<double> CList
         {
             get{ return _cList; }
             set
             {
-                if (StaticData.SelectedItem.ComboBoxSelectedIndex == -1)
-                {
-                    StaticData.SelectedItem.ComboBoxSelectedIndex = 0;
-                }
                 _selectedFunction = StaticData.SelectedItem;
 
                 _cList = value;
@@ -69,14 +76,22 @@ namespace NeoStackTestApp
             { return _selectedFunction; }
             set
             {
-                if(value.ComboBoxSelectedIndex == -1)
-                {
-                    value.ComboBoxSelectedIndex = 0;
-                }
                 StaticData.SelectedItem = value;
-
                 _selectedFunction = value;
-                UpdateCList();               
+                UpdateCList();
+
+
+                if (_selectedFunction.ComboBoxSelectedIndex == -1 || false)
+                {
+                    _selectedFunction.ComboBoxSelectedIndex = 0;
+                    Debug.WriteLine("OLOLOL");
+                }
+                else
+                {
+                    Debug.WriteLine("not OLOLOL");
+                }
+
+                _selectedFunction.C = CList[_selectedFunction.ComboBoxSelectedIndex];
                 OnPropertyChanged();
             }
         }
@@ -88,11 +103,8 @@ namespace NeoStackTestApp
         public ApplicationViewModel()
         {
             InitFunctionsList();
-
-            _selectedFunction = FunctionsList[0];
-
+            SelectedFunction = FunctionsList[0];
             UpdateCList();
-
         }
 
         #region Methods

@@ -38,6 +38,9 @@ namespace NeoStackTestApp
             Function = function;
             Degree = degree;
             FunctionArgsModelList = new ObservableCollection<FunctionArgsModel>();
+
+            ComboBoxSelectedIndex = 0;
+
             A = a;
             B = b;
             C = c;
@@ -49,6 +52,9 @@ namespace NeoStackTestApp
             Function = function;
             Degree = degree;
             FunctionArgsModelList = new ObservableCollection<FunctionArgsModel>();
+
+            ComboBoxSelectedIndex = 0;
+
             A = 0;
             B = 0;
             C = 0;
@@ -74,6 +80,8 @@ namespace NeoStackTestApp
             set
             {
                _comboBoxSelectedIndex = value;
+
+                Debug.WriteLine("index changed " + value);
                 OnPropertyChanged();
             }
         }
