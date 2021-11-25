@@ -1,5 +1,8 @@
-﻿using System;
+﻿using NeoStackTestApp.Models;
+using NeoStackTestApp.Other;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -14,61 +17,64 @@ namespace NeoStackTestApp
     /// </summary>
     public class FunctionModel : INotifyPropertyChanged
     {
+        #region variables
         private string _functionName, _function;
         private double _degree;
-        private double _a, _b, _c, _f, _x, _y;
-        private int _selectedPosition;
+        private double _a, _b, _c;
+        private int _comboBoxSelectedIndex;
+        private ObservableCollection<FunctionArgsModel> _functionArgsModelList;
 
         /// <summary>
         /// Строка, содержащая в себе название класса.
         /// </summary>
         public const string ClassName = "FunctionModel";
+        #endregion
 
-        /// <summary>
-        /// Конструктор для FunctionalModel с частичным набором параметров
-        /// </summary>
-        public FunctionModel(string functionName, string function, int degree)
+
+        #region constructors
+        public FunctionModel(string functionName, string function, double degree, double a, double b, double c)
         {
             FunctionName = functionName;
             Function = function;
             Degree = degree;
-            SelectedPosition = 0;
-            A = 0;
-            B = 0;
-            C = 0;
-            F = 0;
-            X = 0;
-            Y = 0;
-        }
-
-        /// <summary>
-        /// Конструктор для FunctionalModel с полным набором параметров
-        /// </summary>
-        public FunctionModel(string functionName, string function, double degree, double a, double b, double c, double f, double x, double y)
-        {
-            FunctionName = functionName;
-            Function = function;
-            SelectedPosition = 0;
-            Degree = degree;
+            FunctionArgsModelList = new ObservableCollection<FunctionArgsModel>();
             A = a;
             B = b;
             C = c;
-            F = f;
-            X = x;
-            Y = y;
         }
 
+        public FunctionModel(string functionName, string function, Double degree)
+        {
+            FunctionName = functionName;
+            Function = function;
+            Degree = degree;
+            FunctionArgsModelList = new ObservableCollection<FunctionArgsModel>();
+            A = 0;
+            B = 0;
+            C = 0;
+        }
+        #endregion
+
         /// <summary>
-        /// Геттеры и сеттеры для свойств класса. На каждый метод Set прописан метод OnPropertyChanged
+        ///  Геттеры и сеттеры для свойств класса. В каждом сеттере вызывается метод обработки события смены свойства
         /// </summary>
-        #region
+        #region Properties
         public string FunctionName
         {
             get { return _functionName; }
             set
             {
                 _functionName = value;
-                OnPropertyChanged("FunctionName");
+                OnPropertyChanged();
+            }
+        }
+        public int ComboBoxSelectedIndex
+        {
+            get { return _comboBoxSelectedIndex; }
+            set
+            {
+               _comboBoxSelectedIndex = value;
+                OnPropertyChanged();
             }
         }
         public string Function
@@ -77,7 +83,7 @@ namespace NeoStackTestApp
             set
             {
                 _function = value;
-                OnPropertyChanged("Function");
+                OnPropertyChanged();
             }
         }
         public double Degree
@@ -86,17 +92,17 @@ namespace NeoStackTestApp
             set
             {
                 _degree = value;
-                OnPropertyChanged("Degree");
+                OnPropertyChanged();
             }
         }
 
-        public int SelectedPosition
+        public ObservableCollection<FunctionArgsModel> FunctionArgsModelList
         {
-            get { return _selectedPosition; }
+            get { return _functionArgsModelList;}
             set
             {
-                _selectedPosition = value;
-                OnPropertyChanged("SelectedPosition");
+                _functionArgsModelList = value;
+                OnPropertyChanged();
             }
         }
 
@@ -105,9 +111,9 @@ namespace NeoStackTestApp
             get { return _a; }
             set
             {
-                Debug.WriteLine("before conver value " + value);
                 _a = value;
-                OnPropertyChanged("A");
+                StaticData.SelectedItem = this;
+                OnPropertyChanged();
             }
         }
         public double B
@@ -116,7 +122,8 @@ namespace NeoStackTestApp
             set
             {
                 _b = value;
-                OnPropertyChanged("B");
+                StaticData.SelectedItem = this;
+                OnPropertyChanged();
             }
         }
         public double C
@@ -125,39 +132,13 @@ namespace NeoStackTestApp
             set
             {
                 _c = value;
-                OnPropertyChanged("C");
+                StaticData.SelectedItem = this;
+                OnPropertyChanged();
             }
         }
-        public double F
-        {
-            get { return _f; }
-            set
-            {
-                _f = value;
-                OnPropertyChanged("F");
-            }
-        }
-        public double X
-        {
-            get { return _x; }
-            set
-            {
-                _x = value;
-                OnPropertyChanged("X");
-            }
-        }
-        public double Y
-        {
-            get { return _y; }
-            set
-            {
-                _y = value;
-                OnPropertyChanged("Y");
-            }
-        }
-
         #endregion
 
+        #region Events
         /// <summary>
         /// Событие смены свойства
         /// </summary>
@@ -173,5 +154,6 @@ namespace NeoStackTestApp
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
             Debug.WriteLine($" {DateTime.Now.ToString("h:mm:ss tt")}. {ClassName} PropertyChanged name - {prop}.");
         }
+        #endregion
     }
 }

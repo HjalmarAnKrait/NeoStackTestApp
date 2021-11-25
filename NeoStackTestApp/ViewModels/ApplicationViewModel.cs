@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
+using NeoStackTestApp.Models;
+using NeoStackTestApp.Other;
 
 namespace NeoStackTestApp
 {
@@ -19,6 +21,7 @@ namespace NeoStackTestApp
     /// </summary>
     public class ApplicationViewModel : INotifyPropertyChanged
     {
+        #region variables
         private FunctionModel _selectedFunction;
         private ObservableCollection<double> _cList;
         private ObservableCollection<FunctionModel> _functionsList;
@@ -27,18 +30,19 @@ namespace NeoStackTestApp
         /// Строка, содержащая в себе название класса.
         /// </summary>
         public const string ClassName = "ApplicationViewModel";
+        #endregion
 
         /// <summary>
         /// Геттеры и сеттеры для свойств класса. На каждый метод Set прописан метод OnPropertyChanged
         /// </summary>
-        #region
+        #region properties
         public ObservableCollection<FunctionModel> FunctionsList
         {
             get{ return _functionsList; }
             set
             {
                 _functionsList = value;
-                OnPropertyChanged("FunctionsList");
+                OnPropertyChanged();
             }
         }
         
@@ -47,29 +51,35 @@ namespace NeoStackTestApp
             get{ return _cList; }
             set
             {
+                if (StaticData.SelectedItem.ComboBoxSelectedIndex == -1)
+                {
+                    StaticData.SelectedItem.ComboBoxSelectedIndex = 0;
+                }
+                _selectedFunction = StaticData.SelectedItem;
+
                 _cList = value;
-                OnPropertyChanged("CList");
+                OnPropertyChanged();
             }
         }
 
-        
+
         public FunctionModel SelectedFunction
         {
             get
             { return _selectedFunction; }
             set
             {
-                value.F = Calculator.CalculateFunction(value);
+                if(value.ComboBoxSelectedIndex == -1)
+                {
+                    value.ComboBoxSelectedIndex = 0;
+                }
+                StaticData.SelectedItem = value;
+
                 _selectedFunction = value;
-
-                //UpdateFunctionList();
-
-                UpdateCList();
-                
-                OnPropertyChanged("SelectedFunction");
+                UpdateCList();               
+                OnPropertyChanged();
             }
         }
-
         #endregion
 
         /// <summary>
@@ -85,6 +95,7 @@ namespace NeoStackTestApp
 
         }
 
+        #region Methods
         private void InitFunctionsList()
         {
             FunctionsList = new ObservableCollection<FunctionModel>();
@@ -98,20 +109,11 @@ namespace NeoStackTestApp
      
         private void UpdateCList()
         {
-            CList = Calculator.GetCList(5, _selectedFunction.Degree);
+            CList = Calculator.GetCList(FunctionsList.Count, _selectedFunction.Degree);
         }
+        #endregion
 
-
-        private void UpdateFunctionList()
-        {
-            _functionsList.Add(_selectedFunction);
-            _functionsList.RemoveAt(FunctionsList.Count - 1);
-
-            Debug.WriteLine("Manual update");
-        }
-
-        //OnPropertyChanged имплементация
-        #region 
+        #region Events
         /// <summary>
         /// Событие смены свойства
         /// </summary>
@@ -125,7 +127,7 @@ namespace NeoStackTestApp
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
-            Debug.WriteLine($" {DateTime.Now.ToString("h:mm:ss tt")}. {ClassName} PropertyChanged name - {prop}");
+            Debug.WriteLine($" {DateTime.Now.ToString("h:mm:ss tt")}. {ClassName} PropertyChanged name - {prop}.");
         }
         #endregion
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeoStackTestApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,14 +20,14 @@ namespace NeoStackTestApp
         /// <param name="degree">Степень числа, для определение множителя коэффициента С</param>
         /// <param name="functionModel">Модель функции, содержащая в себе необходимые для расчёта данные</param>
         /// <returns>Результат подсчёта</returns>
-        public static double CalculateFunction(double degree, FunctionModel functionModel)
+        public static double CalculateFunction(double degree, FunctionModel functionModel, FunctionArgsModel functionArgsModel)
         {
             if (degree == 0)
                 degree = 1;
 
             double result =
-                functionModel.A * Math.Pow(functionModel.X, degree) +
-                functionModel.B * Math.Pow(functionModel.Y, degree - 1.0) +
+                functionModel.A * Math.Pow(functionArgsModel.X, degree) +
+                functionModel.B * Math.Pow(functionArgsModel.Y, degree - 1.0) +
                 functionModel.C;
 
             return result;
@@ -37,14 +38,14 @@ namespace NeoStackTestApp
         /// </summary>
         /// <param name="functionModel">Модель функции, содержащая в себе необходимые для расчёта данные</param>
         /// <returns>Результат подсчёта</returns>
-        public static double CalculateFunction(FunctionModel functionModel)
+        public static double CalculateFunction(FunctionModel functionModel, FunctionArgsModel functionArgsModel)
         {
             if (functionModel.Degree == 0)
                 functionModel.Degree = 1;
 
             double result =
-                functionModel.A * Math.Pow(functionModel.X, functionModel.Degree) +
-                functionModel.B * Math.Pow(functionModel.Y, functionModel.Degree - 1.0) +
+                functionModel.A * Math.Pow(functionArgsModel.X, functionModel.Degree) +
+                functionModel.B * Math.Pow(functionArgsModel.Y, functionModel.Degree - 1.0) +
                 functionModel.C;
 
             return result;

@@ -71,9 +71,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ApplicationViewModel.cs" />
-    <Compile Include="Calculator.cs" />
-    <Compile Include="FunctionModel.cs" />
+    <Compile Include="Models\FunctionArgsModel.cs" />
+    <Compile Include="Other\StaticData.cs" />
+    <Compile Include="ViewModels\ApplicationViewModel.cs" />
+    <Compile Include="Other\Calculator.cs" />
+    <Compile Include="Models\FunctionModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
