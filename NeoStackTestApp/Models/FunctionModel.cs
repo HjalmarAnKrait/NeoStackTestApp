@@ -39,6 +39,7 @@ namespace NeoStackTestApp
             B = b;
             C = Calculator.CalcC(degree, 1.0);
         }
+
         /// <summary>
         /// Конструктор класса с частичным набором параметров
         /// </summary>
@@ -49,12 +50,42 @@ namespace NeoStackTestApp
         {
             FunctionName = functionName;
             Function = function;
+
+            if (degree <= 0)
+            {
+                degree = 1;
+            }
+
             Degree = degree;
+
             FunctionArgsModelList = new ObservableCollection<FunctionArgsModel>();
             A = 0;
             B = 0;
             C = Calculator.CalcC(degree, 1.0);
         }
+
+        /// <summary>
+        /// Конструктор класса для тестов
+        /// </summary>
+        /// <param name="degree"></param>
+        public FunctionModel(double degree, double c,double a, double b)
+        {
+            FunctionName = "NAN";
+            Function = "NAN";
+
+            if(degree <= 0)
+            {
+                degree = 1;
+            }
+
+            Degree = degree;
+            FunctionArgsModelList = new ObservableCollection<FunctionArgsModel>();
+            A = a;
+            B = b;
+            C = Calculator.CalcC(degree, c);
+        }
+
+
         #endregion
 
         /// <summary>

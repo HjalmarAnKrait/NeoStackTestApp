@@ -1,6 +1,7 @@
 ﻿using NeoStackTestApp.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace NeoStackTestApp
 {
@@ -18,7 +19,7 @@ namespace NeoStackTestApp
         /// <returns>Результат подсчёта</returns>
         public static double CalculateFunction(double degree, FunctionModel functionModel, FunctionArgsModel functionArgsModel)
         {
-            if (degree == 0)
+            if (degree <= 0)
                 degree = 1;
 
             double result =
@@ -36,7 +37,7 @@ namespace NeoStackTestApp
         /// <returns>Результат подсчёта</returns>
         public static double CalculateFunction(FunctionModel functionModel, FunctionArgsModel functionArgsModel)
         {
-            if (functionModel.Degree == 0)
+            if (functionModel.Degree <= 0)
                 functionModel.Degree = 1;
 
             double result =
@@ -46,6 +47,7 @@ namespace NeoStackTestApp
 
             return result;
         }
+
 
         /// <summary>
         /// Метод для расчёта коэффициента С с учётом его множителя для выбранной функции
@@ -71,6 +73,10 @@ namespace NeoStackTestApp
         public static ObservableCollection<double> GetCList(int size, double degree)
         {
             ObservableCollection<double> result = new ObservableCollection<double>();
+            if(degree <= 0)
+            {
+                degree = 1;
+            }
 
             for (int i = 1; i <= size; i++)
             {

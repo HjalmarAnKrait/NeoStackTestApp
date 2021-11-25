@@ -98,7 +98,7 @@ namespace NeoStackTestApp.Models
         {
             if(StaticData.SelectedItem != null)
             {
-                Details = $"Аргументы функции: c = {StaticData.SelectedItem.C}, a = {StaticData.SelectedItem.A}, b = {StaticData.SelectedItem.B}";
+                Details = $"Аргументы функции: c = {StaticData.SelectedItem.C}, a = {StaticData.SelectedItem.A}, b = {StaticData.SelectedItem.B}";   
             }
             else
             {
