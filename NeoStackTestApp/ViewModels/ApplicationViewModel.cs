@@ -32,16 +32,6 @@ namespace NeoStackTestApp
             }
         }
         
-        public int SelIndex 
-        { 
-            get { return _selIndex; }
-            set
-            {
-                _selIndex = value;
-                OnPropertyChanged(); 
-            }
-        }
-
         public ObservableCollection<double> CList
         {
             get{ return _cList; }

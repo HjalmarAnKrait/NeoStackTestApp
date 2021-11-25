@@ -35,9 +35,6 @@ namespace NeoStackTestApp
             Function = function;
             Degree = degree;
             FunctionArgsModelList = new ObservableCollection<FunctionArgsModel>();
-
-            ComboBoxSelectedIndex = 0;
-
             A = a;
             B = b;
             C = Calculator.CalcC(degree, 1.0);
@@ -54,9 +51,6 @@ namespace NeoStackTestApp
             Function = function;
             Degree = degree;
             FunctionArgsModelList = new ObservableCollection<FunctionArgsModel>();
-
-            ComboBoxSelectedIndex = 0;
-
             A = 0;
             B = 0;
             C = Calculator.CalcC(degree, 1.0);
